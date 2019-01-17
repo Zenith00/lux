@@ -1,19 +1,22 @@
 from . import zutils
 import discord
+
+
 class Contexter:
     def __init__(self, message, config):
         self.config = config  # type: dict
         self.m = message  # type: discord.Message
+        self.deprefixed_content = self.m.content[len(self.config["PREFIX"]):]
 
     def find_role(self, query):
-        if self.config.ROLE_BY_CONFIG:
+        if self.config["ROLE_BY_CONFIG"]:
             return self.find_role_config(query)
         else:
             return self.find_role_dynamic(query)
 
 
     def find_role_config(self, query):
-        return self.m.guild.get_role(zutils.query_dict_softcase(self.config.ROLE_TO_ID[query], query))
+        return self.m.guild.get_role(zutils.query_dict_softcase(self.config["ROLE_TO_ID"][query], query))
 
     def find_role_dynamic(self, query):
         if isinstance(query, int):
@@ -27,7 +30,7 @@ class Contexter:
 
     def find_channel(self, query, dynamic=True):
         try:
-            return self.m.guild.get_role(zutils.query_dict_softcase(self.config.ROLE_TO_ID[query], query))
+            return self.m.guild.get_role(zutils.query_dict_softcase(self.config["ROLE_TO_ID"][query], query))
         except KeyError:
             if not dynamic:
                 return
