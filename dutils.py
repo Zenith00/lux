@@ -23,3 +23,4 @@ def message2embed(message : discord.Message, embed_color : discord.Color = None)
                 break
     if embed_color:
         embed.colour = embed_color
+
