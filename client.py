@@ -3,7 +3,7 @@ import discord
 from .contexter import Contexter
 from . import zutils
 from .command import Command
-
+#test
 class Lux(discord.Client):
     commands = {}
 
