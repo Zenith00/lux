@@ -1,8 +1,8 @@
 import logging
 import discord
-from lux.contexter import Contexter
-import lux.zutils
-from lux.command import Command
+from .contexter import Contexter
+from . import zutils
+from .command import Command
 
 class Lux(discord.Client):
     commands = {}
@@ -25,7 +25,7 @@ class Lux(discord.Client):
             elif command_raw.split(" ")[0] in self.commands:
                 await self.commands[command_raw.split(" ")[0]].execute(Contexter(message, self.config))
 
-    @lux.zutils.parametrized
+    @zutils.parametrized
     def command(func, self, name: str = None, **attrs):
         logging.info(f"Registered function: func: {func}, override name = {name}")
         command = Command(func, fname=name, **attrs)
