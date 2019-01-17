@@ -27,7 +27,7 @@ class Lux(discord.Client):
 
     @zutils.parametrized
     def command(func, self, name: str = None, **attrs):
-        logging.info(f"Registered function: func: {func}, override name = {name}")
+        logging.info(f"Registered function: func: {func.__name__}, override name = {name}")
         command = Command(func, fname=name, **attrs)
         self.add_command(command)
         return command
