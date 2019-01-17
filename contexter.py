@@ -1,8 +1,9 @@
 from . import zutils
+import discord
 class Contexter:
     def __init__(self, message, config):
-        self.config = config
-        self.m = message
+        self.config = config  # type: dict
+        self.m = message  # type: discord.Message
 
     def find_role(self, query):
         if self.config.ROLE_BY_CONFIG:
