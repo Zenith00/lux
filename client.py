@@ -35,20 +35,3 @@ class Lux(discord.Client):
     def add_command(self, command):
         self.commands[command.fname] = command
 
-    async def execute(self, ctx : Contexter):
-        pres = [await pre(ctx) for pre in self.pres]
-        val = [await self.func(ctx)]
-        posts = [await post(ctx) for post in self.posts]
-        results = pres + val + posts
-        for result in results:
-            if not result:
-                continue
-
-            target_channel = ctx.config["DEFAULT_OUT"]
-            if target_channel == "inplace":
-                target_channel = ctx.m.channel
-            else:
-                target_channel = ctx.find_channel(target_channel, dynamic=True)
-
-            if isinstance(result, str):
-                await target_channel.send(result)
