@@ -4,7 +4,7 @@ class Contexter:
         self.m = message
 
     def find_role(self, query):
-        if self.config.ROLE_BY_self.config:
+        if self.config.ROLE_BY_CONFIG:
             return self.find_role_config(query)
         else:
             return self.find_role_dynamic(query)
