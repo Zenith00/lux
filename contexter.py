@@ -1,3 +1,4 @@
+from . import zutils
 class Contexter:
     def __init__(self, message, config):
         self.config = config
@@ -9,19 +10,31 @@ class Contexter:
         else:
             return self.find_role_dynamic(query)
 
+
     def find_role_config(self, query):
-        if query in self.config.ROLE_TO_ID.keys():
-            return self.m.guild.get_role(self.config.ROLE_TO_ID[query])
-        elif query.lower() in self.config.ciROLE_TO_ID.keys():
-            return self.m.guild.get_role(self.config.ciROLE_TO_ID[query.lower()])
-        raise Exception(f"Role: [{query}] not found in config")
+        return self.m.guild.get_role(zutils.query_dict_softcase(self.config.ROLE_TO_ID[query], query))
 
     def find_role_dynamic(self, query):
         if isinstance(query, int):
-            return next(role for role in self.m.guild.roles if role.id == query)
+            return self.m.guild.get_role(int)
         if isinstance(query, str):
             try:
                 res = next(role for role in self.m.guild.roles if role.name == query)
             except StopIteration:
                 res = next(role for role in self.m.guild.roles if role.name.lower() == query.lower())
             return res
+
+    def find_channel(self, query, dynamic=True):
+        try:
+            return self.m.guild.get_role(zutils.query_dict_softcase(self.config.ROLE_TO_ID[query], query))
+        except KeyError:
+            if not dynamic:
+                return
+            if isinstance(query, int):
+                return self.m.guild.get_channel(query)
+            if isinstance(query, str):
+                try:
+                    res = next(channel for channel in self.m.guild.channels if channel.name == query)
+                except StopIteration:
+                    res = next(channel for channel in self.m.guild.channels if channel.name.lower() == query.lower())
+                return res
