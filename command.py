@@ -30,14 +30,12 @@ class Command:
     async def execute(self, ctx: Contexter):
         if self.onlyme and ctx.m.author.id != 129706966460137472:
             return
-        print(ctx.check_auth)
         if not ctx.check_auth():
             return await self.handle_result(ctx,"Insufficient permissions to use this command.")
         pres = [await pre(ctx) for pre in self.pres]
         val = [await self.func(ctx)]
         posts = [await post(ctx) for post in self.posts]
         results = pres + val + posts
-        print(results)
         for result in results:
             if not result:
                 continue

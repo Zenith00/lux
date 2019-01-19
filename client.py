@@ -10,7 +10,6 @@ class Lux(discord.Client):
     def __init__(self, config, *args, **kwargs):
         self.config = config
         self.auth_function = kwargs.get("auth_function", True)
-
         super(Lux, self).__init__(*args, **kwargs)
 
     async def on_ready(self):
@@ -20,7 +19,7 @@ class Lux(discord.Client):
         logging.info("Connected")
 
     async def on_message(self, message):
-        ctx = Contexter(message, self.config)
+        ctx = Contexter(message, self.config, auth_func=self.auth_function)
         if message.content.startswith(ctx.config["PREFIX"]):
             command_raw = message.content[len(ctx.config["PREFIX"]):].lower()
             if command_raw in self.commands:

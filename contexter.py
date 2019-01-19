@@ -7,7 +7,7 @@ class Contexter:
         self.config = configs.of(message.guild)  # type: dict
         self.m = message  # type: discord.Message
         self.deprefixed_content = self.m.content[len(self.config["PREFIX"]):]
-        self.auth_func = None
+        self.auth_func = auth_func
 
     def check_auth(self, *args, **kwargs):
         if not self.auth_func:
