@@ -35,7 +35,7 @@ def mention_to_id(command_list):
             new_command.append(item)
         else:
             idmatch = re.compile(r"\d")
-            id_chars = "".join(idmatch.findall(item))
+            id_chars = int("".join(idmatch.findall(item)))
             new_command.append(id_chars)
     return new_command
 
