@@ -73,5 +73,5 @@ def check_int(s):
 def intorstr(x):
     try:
         return int(x)
-    except TypeError:
+    except ValueError:
         return x

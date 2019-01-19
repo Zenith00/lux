@@ -24,6 +24,13 @@ class Config:
         self.configs[guild_id] = copy.deepcopy(CONFIG_DEFAULT.PINBOT)
         self.save()
 
+    def reset_key(self, guild_id, key):
+        try:
+            self.configs[guild_id][key] = copy.deepcopy(CONFIG_DEFAULT.PINBOT[key])
+        except KeyError:
+            print(traceback.format_exc())
+            del self.configs[guild_id][key]
+
     def save(self):
         with open("configs.pickle", "wb") as f:
             pickle.dump(self.configs, f)
