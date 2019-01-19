@@ -1,5 +1,5 @@
 import traceback
-
+import CONFIG
 import CONFIG_DEFAULT
 import copy
 import pickle
@@ -10,6 +10,9 @@ class Config:
 
     def __init__(self):
         pass
+
+    def get_token(self):
+        return CONFIG.PINBOT["TOKEN"]
 
     def of(self, guild) -> dict:
         if guild.id not in self.configs.keys():

@@ -65,6 +65,7 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
 
 def check_int(s):
     s = str(s)
-    if s[0] in ('-', '+'):
-        return s[1:].isdigit()
-    return s.isdigit()
+    try:
+        return int(s)
+    except TypeError:
+        return None
