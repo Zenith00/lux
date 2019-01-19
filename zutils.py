@@ -69,3 +69,9 @@ def check_int(s):
         return int(s)
     except TypeError:
         return None
+
+def intorstr(x):
+    try:
+        return int(x)
+    except TypeError:
+        return x
