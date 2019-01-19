@@ -1,19 +1,19 @@
 from . import zutils
+from . import config
 import discord
 
-
 class Contexter:
-    def __init__(self, message, config):
-        self.config = config  # type: dict
+    def __init__(self, message, configs: config.Config =None):
+        self.config = configs.of(message.guild)  # type: dict
         self.m = message  # type: discord.Message
         self.deprefixed_content = self.m.content[len(self.config["PREFIX"]):]
+
 
     def find_role(self, query):
         if self.config["ROLE_BY_CONFIG"]:
             return self.find_role_config(query)
         else:
             return self.find_role_dynamic(query)
-
 
     def find_role_config(self, query):
         return self.m.guild.get_role(zutils.query_dict_softcase(self.config["ROLE_TO_ID"][query], query))
@@ -23,10 +23,12 @@ class Contexter:
             return self.m.guild.get_role(int)
         if isinstance(query, str):
             try:
-                res = next(role for role in self.m.guild.roles if role.name == query)
+                return next(role for role in self.m.guild.roles if role.name == query)
             except StopIteration:
-                res = next(role for role in self.m.guild.roles if role.name.lower() == query.lower())
-            return res
+                try:
+                    return next(role for role in self.m.guild.roles if role.name.lower() == query.lower())
+                except StopIteration:
+                    return None
 
     def find_channel(self, query, dynamic=True):
         try:

@@ -24,3 +24,25 @@ def message2embed(message: discord.Message, embed_color: discord.Color = None):
     if embed_color:
         embed.colour = embed_color
     return embed
+
+def mention_to_id(command_list):
+    new_command = []
+    import re
+    reg = re.compile(r"<[@#](!?)\d*>", re.IGNORECASE)
+    for item in command_list:
+        match = reg.search(item)
+        if match is None:
+            new_command.append(item)
+        else:
+            idmatch = re.compile(r"\d")
+            id_chars = "".join(idmatch.findall(item))
+            new_command.append(id_chars)
+    return new_command
+
+def is_role(client, target):
+    import itertools
+    target_role = [role for role in itertools.chain(*[guild.roles for guild in client.guilds]) if role.id == target]
+    if target_role:
+        return target_role[0]
+    return None
+

@@ -3,4 +3,5 @@ from . import command
 from . import contexter
 from . import zutils
 from . import dutils
-__all__ = [client, contexter, command, zutils, dutils]
+from . import config
+__all__ = [client, contexter, command, zutils, dutils, config]

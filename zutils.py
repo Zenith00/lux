@@ -62,3 +62,9 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
     except Exception:
         return_val = traceback.format_exc()
     return str(return_val).replace("Austin","zen")
+
+def check_int(s):
+    s = str(s)
+    if s[0] in ('-', '+'):
+        return s[1:].isdigit()
+    return s.isdigit()
