@@ -1,5 +1,5 @@
 import traceback
-import CONFIG
+import TOKENS
 import CONFIG_DEFAULT
 import copy
 import pickle
@@ -11,11 +11,11 @@ class Config:
     def __init__(self, botname):
         self.name = botname
         self.DEFAULTS = getattr(CONFIG_DEFAULT, self.name, {})
-        self.CONFIG = getattr(CONFIG, self.name)
+        self.TOKEN = getattr(TOKENS, self.name)
         pass
 
     def get_token(self):
-        return getattr(self.CONFIG["TOKEN"])
+        return getattr(self.TOKEN)
 
     def of(self, guild) -> dict:
         if guild.id not in self.server_configs.keys():
