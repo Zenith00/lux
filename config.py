@@ -14,8 +14,6 @@ class Config:
         self.TOKEN = getattr(TOKENS, self.name)
         pass
 
-    def get_token(self):
-        return getattr(self.TOKEN)
 
     def of(self, guild) -> dict:
         if guild.id not in self.server_configs.keys():
