@@ -39,7 +39,7 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
     ms = magic_search
     try:
         if exec_type == "exec":
-            exec(statement)
+            exec(statement, globals(), locals())
         if exec_type == "eval":
             return_val = eval(statement)
 
