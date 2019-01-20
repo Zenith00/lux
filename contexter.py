@@ -3,7 +3,7 @@ from . import config
 import discord
 
 class Contexter:
-    def __init__(self, message, configs: config.Config =None, auth_func = None):
+    def __init__(self, message, configs: config.Config = None, auth_func = None):
         if isinstance(configs, config.Config):
             self.config = configs.of(message.guild)  # type: dict
         else:
