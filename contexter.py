@@ -4,7 +4,11 @@ import discord
 
 class Contexter:
     def __init__(self, message, configs: config.Config =None, auth_func = None):
-        self.config = configs.of(message.guild)  # type: dict
+        if isinstance(configs, config.Config):
+            self.config = configs.of(message.guild)  # type: dict
+        else:
+            self.config = configs
+
         self.m = message  # type: discord.Message
         self.deprefixed_content = self.m.content[len(self.config["PREFIX"]):]
         self.auth_func = auth_func
@@ -22,7 +26,7 @@ class Contexter:
             return self.find_role_dynamic(query)
 
     def find_role_config(self, query):
-        return self.m.guild.get_role(zutils.query_dict_softcase(self.config["ROLE_TO_ID"][query], query))
+        return self.m.guild.get_role(zutils.query_dict_softcase(self.config["ROLE_TO_ID"], query))
 
     def find_role_dynamic(self, query):
         if zutils.check_int(query):
