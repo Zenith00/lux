@@ -21,7 +21,7 @@ class Contexter:
             return self.auth_func(self, *args, **kwargs)
 
     def find_role(self, query):
-        if self.config["ROLE_BY_CONFIG"]:
+        if "ROLE_BY_CONFIG" in self.config.keys() and self.config["ROLE_BY_CONFIG"]:
             return self.find_role_config(query)
         else:
             return self.find_role_dynamic(query)
