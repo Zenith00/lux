@@ -76,3 +76,8 @@ def intorstr(x):
     except ValueError:
         return x
 
+import datetime
+def timeme(dt : datetime.datetime) -> datetime.datetime:
+    now = datetime.datetime.now()
+    print(now - dt)
+    return now
