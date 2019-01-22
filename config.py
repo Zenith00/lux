@@ -32,6 +32,9 @@ class Config:
             print(traceback.format_exc())
             del self.server_configs[guild_id][key]
 
+    def reset(self, guild_id):
+        self.initialize_default(guild_id)
+
     def save(self):
         with open("configs.pickle", "wb") as f:
             pickle.dump(self.server_configs, f)

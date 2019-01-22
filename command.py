@@ -28,10 +28,11 @@ class Command:
             self.posts.append(delete_m)
 
     async def execute(self, ctx: Contexter):
+        ctx.called_with = {"name": self.fname, "args": ctx.deprefixed_content[len(self.fname) + 1:], "func":self.func}
         if self.onlyme and ctx.m.author.id != 129706966460137472:
             return
         if not ctx.check_auth():
-            return await self.handle_result(ctx,"Insufficient permissions to use this command.")
+            return await self.handle_result(ctx, "Insufficient permissions to use this command.")
         pres = [await pre(ctx) for pre in self.pres]
         val = [await self.func(ctx)]
         posts = []
@@ -61,4 +62,3 @@ class Command:
             target_channel = ctx.find_channel(target_channel, dynamic=True)
         if isinstance(subresult, str):
             await target_channel.send(subresult)
-
