@@ -61,7 +61,7 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
             return_val = f"Created task successfully"
     except Exception:
         return_val = traceback.format_exc()
-    return str(return_val).replace("Austin","zen")
+    return str(return_val).replace("Austin", "zen")
 
 def check_int(s):
     s = str(s)
@@ -77,7 +77,19 @@ def intorstr(x):
         return x
 
 import datetime
-def timeme(dt : datetime.datetime) -> datetime.datetime:
+
+def timeme(dt: datetime.datetime) -> datetime.datetime:
     now = datetime.datetime.now()
     print(now - dt)
     return now
+
+def rgb_percent(percent):
+    if percent >= .5:
+        return 255, 255 - int((percent - 0.5) * 2 * 255), 0
+    else:
+        return int(percent * 2 * 255), 255, 0
+
+def threshold_string(string, thresh):
+    if len(string) > thresh:
+        return string[:thresh] + "..."
+    return string

@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import discord
 from .contexter import Contexter
@@ -37,3 +38,10 @@ class Lux(discord.Client):
     def add_command(self, command):
         self.commands[command.fname] = command
 
+    def run_forever(self, func, delay=1, *args, **kwargs):
+        async def forevered(*args_, **kwargs_):
+            while True:
+                func(*args_, **kwargs_)
+                asyncio.sleep(delay)
+
+        self.loop.run_until_complete(forevered(*args, **kwargs))

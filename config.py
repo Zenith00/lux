@@ -45,7 +45,7 @@ class Config:
             with open("configs.pickle", "rb") as f:
                 self.server_configs = pickle.load(f)
         except IOError:
-            print(traceback.format_exc())
+            pass
         return self
 
     def generate_readable(self, guild_id = None):
