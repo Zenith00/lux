@@ -41,13 +41,13 @@ class Config:
         return self
 
     def save(self):
-        with open("configs.pickle", "wb") as f:
+        with open(f"{self.name}_configs.pickle", "wb") as f:
             pickle.dump(self.server_configs, f)
         return self
 
     def load(self):
         try:
-            with open("configs.pickle", "rb") as f:
+            with open(f"{self.name}_.pickle", "rb") as f:
                 self.server_configs = pickle.load(f)
         except IOError:
             pass
