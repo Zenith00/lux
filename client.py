@@ -28,6 +28,7 @@ class Lux(discord.Client):
             elif command_raw.split(" ")[0] in self.commands:
                 await self.commands[command_raw.split(" ")[0]].execute(ctx)
 
+
     @zutils.parametrized
     def command(func, self, name: str = None, **attrs):
         logging.info(f"Registered function: func: {func.__name__}, override name = {name}")
