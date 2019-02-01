@@ -1,12 +1,33 @@
 import asyncio
 import logging
 import discord
+import collections
+import itertools
 from .contexter import Contexter
 from . import zutils
 from .command import Command
 #test
 class Lux(discord.Client):
-    commands = {}
+    commands ={}
+    events = collections.defaultdict(lambda: [None,[]])
+
+    def append_event(self, func, event_name=None):
+        if not event_name:
+            event_name = func.__name__
+        exiting_event = getattr(self, event_name, None)
+        if exiting_event:
+            self.events[event_name][0] = exiting_event
+
+        self.events[event_name][1].append(func)
+
+        async def multihandler(*args, **kwargs):
+            for command in itertools.chain([self.events[event_name][0]], self.events[event_name][1]):
+                if command:
+                    await command(*args, **kwargs)
+
+        setattr(self, event_name, multihandler)
+
+
 
     def __init__(self, config, *args, **kwargs):
         self.config = config
