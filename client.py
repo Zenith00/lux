@@ -30,9 +30,12 @@ class Lux(discord.Client):
 
 
     def __init__(self, config, *args, **kwargs):
-        self.config = config
-        self.auth_function = kwargs.get("auth_function", True)
         super(Lux, self).__init__(*args, **kwargs)
+        self.config = config
+        self.auth_function = kwargs.get("auth_function", lambda x: True)
+        register_builtins(self)
+
+
 
     async def on_ready(self):
         logging.info("Ready!")
@@ -67,3 +70,22 @@ class Lux(discord.Client):
                 asyncio.sleep(delay)
 
         self.loop.run_until_complete(forevered(*args, **kwargs))
+
+def register_builtins(lux : Lux):
+    print("registering builtins?")
+    @lux.command(name="aexec",onlyme=True)
+    async def aexec_(ctx):
+        return zutils.execute("aexec", ctx.deprefixed_content[6:], ctx=ctx)
+
+    @lux.command(name="eval",onlyme=True)
+    async def eval_(ctx):
+        return zutils.execute("eval", ctx.deprefixed_content[5:], ctx=ctx)
+
+    @lux.command(name="exec",onlyme=True)
+    async def exec_(ctx):
+        return zutils.execute("exec", ctx.deprefixed_content[5:], ctx=ctx)
+
+    @lux.command(name="aeval",onlyme=True)
+    async def aeval_(ctx):
+        return await zutils.aeval(ctx.deprefixed_content[6:], ctx=ctx)
+

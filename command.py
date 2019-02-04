@@ -55,7 +55,7 @@ class Command:
                 await self.handle_result(ctx, subresult)
 
     async def handle_result(self, ctx, subresult):
-        target_channel = ctx.config["DEFAULT_OUT"]
+        target_channel = "inplace" if "DEFAULT_OUT" not in ctx.config.keys() else ctx.config["DEFAULT_OUT"]
         if target_channel == "inplace":
             target_channel = ctx.m.channel
         else:
