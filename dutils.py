@@ -11,10 +11,13 @@ def message2embed(message: discord.Message, embed_color: discord.Color = None):
     embed.set_footer(text=f"#{message.channel.name} | Sent at {message.created_at.isoformat('@').replace('@',' at ')}")
     if message.embeds:
         for m_embed in message.embeds:
+            if m_embed.url:
+                embed.set_image(url=m_embed.url)
             if m_embed.image:
                 embed.set_image(url=m_embed.image.url)
             if m_embed.video:
                 embed._video = m_embed._video
+
             break
     if message.attachments:
         for attachment in message.attachments:
@@ -23,6 +26,7 @@ def message2embed(message: discord.Message, embed_color: discord.Color = None):
                 break
     if embed_color:
         embed.colour = embed_color
+
     return embed
 
 def mention_to_id(command_list):
