@@ -40,16 +40,13 @@ class Config:
         return self
 
     def save(self):
-        print(f"Q: Calling save! on {self.name}", flush=True)
         with open(f"{self.name}_configs.pickle", "wb") as f:
             pickle.dump(self.server_configs, f)
-        with open(f"{self.name}_.pickle", "rb") as f:
-            print(pickle.load(f))
         return self
 
     def load(self):
         try:
-            with open(f"{self.name}_.pickle", "rb") as f:
+            with open(f"{self.name}_configs.pickle", "rb") as f:
                 self.server_configs = pickle.load(f)
         except IOError:
             pass
