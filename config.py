@@ -14,7 +14,6 @@ class Config:
         self.TOKEN = getattr(TOKENS, self.name)
         pass
 
-
     def of(self, guild) -> dict:
         if guild.id not in self.server_configs.keys():
             self.initialize_default(guild_id=guild.id)
@@ -41,8 +40,11 @@ class Config:
         return self
 
     def save(self):
+        print(f"Q: Calling save! on {self.name}", flush=True)
         with open(f"{self.name}_configs.pickle", "wb") as f:
             pickle.dump(self.server_configs, f)
+        with open(f"{self.name}_.pickle", "rb") as f:
+            print(pickle.load(f))
         return self
 
     def load(self):
@@ -53,7 +55,7 @@ class Config:
             pass
         return self
 
-    def generate_readable(self, guild_id = None):
+    def generate_readable(self, guild_id=None):
         if not guild_id:
             return pprint.pformat(self.server_configs)
         else:
