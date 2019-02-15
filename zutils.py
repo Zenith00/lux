@@ -43,7 +43,7 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
 
         if exec_type == "aexec":
             async_loop = ms("client").loop if not async_loop else async_loop
-            if len(statement.split("\n")) == 1 and not statement.startswith("await"):
+            if len(statement.split("\n")) == 1 and ";" not in statement and not statement.startswith("await"):
                 statement = f"await ctx.m.channel.send(({statement}))"
             indent = "    "
             indented_values = "\n".join([indent * 2 + statement for statement in statement.split("\n")])
