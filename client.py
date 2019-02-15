@@ -73,6 +73,8 @@ class Lux(discord.Client):
 
 def register_builtins(lux : Lux):
     print("registering builtins?")
+
+
     @lux.command(name="aexec",onlyme=True)
     async def aexec_(ctx):
         return zutils.execute("aexec", ctx.deprefixed_content[6:], ctx=ctx)
