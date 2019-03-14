@@ -1,20 +1,22 @@
-import traceback
-import TOKENS
-import CONFIG_DEFAULT
 import copy
 import pickle
 import pprint
+import traceback
+import TOKENS
 
 class Config:
     server_configs = {}
 
-    def __init__(self, botname):
+    def __init__(self, botname, config_defaults=None):
         self.name = botname
-        self.DEFAULTS = getattr(CONFIG_DEFAULT, self.name, {})
+        self.DEFAULTS = config_defaults
         self.TOKEN = getattr(TOKENS, self.name)
+
         pass
 
     def of(self, guild) -> dict:
+        if not guild:
+            return {}
         if guild.id not in self.server_configs.keys():
             self.initialize_default(guild_id=guild.id)
             self.save()
@@ -57,3 +59,4 @@ class Config:
             return pprint.pformat(self.server_configs)
         else:
             return pprint.pformat(self.server_configs[guild_id])
+
