@@ -1,5 +1,4 @@
 from .contexter import Contexter
-
 class Command:
     def __init__(self, func, fname: str = None, **kwargs):
         self.fname = fname
@@ -14,18 +13,6 @@ class Command:
             self.fname = func.__name__  # type:str
         self.fname = self.fname.lower()
 
-    async def process_config(self, ctx: Contexter):
-        if ctx.config["ACK_TYPE"] == "react":
-            async def add_checkmark(ctx):
-                await ctx.m.add_reaction("✅")
-
-            self.posts.append(add_checkmark)
-
-        if ctx.config["ACK_TYPE"] == "delete":
-            async def delete_m(ctx):
-                await ctx.m.delete()
-
-            self.posts.append(delete_m)
 
     async def execute(self, ctx: Contexter):
         ctx.called_with = {"name": self.fname, "args": ctx.deprefixed_content[len(self.fname) + 1:], "func":self.func}

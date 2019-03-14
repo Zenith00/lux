@@ -1,5 +1,7 @@
 import asyncio
 import logging
+import pprint
+
 import discord
 import collections
 import itertools
@@ -32,8 +34,9 @@ class Lux(discord.Client):
     def __init__(self, config, *args, **kwargs):
         super(Lux, self).__init__(*args, **kwargs)
         self.config = config
-        self.auth_function = kwargs.get("auth_function", lambda x: True)
-        register_builtins(self)
+        self.auth_function = kwargs.get("auth_function")
+        if not zutils.k_bool(kwargs, "disable_builtins"):
+            register_builtins(self)
 
 
 
@@ -44,9 +47,9 @@ class Lux(discord.Client):
         logging.info("Connected")
 
     async def on_message(self, message):
-        ctx = Contexter(message, self.config, auth_func=self.auth_function)
+        ctx = Contexter(message=message, configs=self.config, auth_func=self.auth_function)
         if message.content.startswith(ctx.config["PREFIX"]):
-            command_raw = message.content[len(ctx.config["PREFIX"]):].lower()
+            command_raw = ctx.deprefixed_content.lower()
             if command_raw in self.commands:
                 await self.commands[command_raw].execute(ctx)
             elif command_raw.split(" ")[0] in self.commands:
@@ -55,7 +58,7 @@ class Lux(discord.Client):
 
     @zutils.parametrized
     def command(func, self, name: str = None, **attrs):
-        logging.info(f"Registered function: func: {func.__name__}, override name = {name}")
+        logging.info(f"Registered function: func: {func.__name__}, override name = {name}, attrs: {pprint.pformat(attrs)}")
         command = Command(func, fname=name, **attrs)
         self.add_command(command)
         return command

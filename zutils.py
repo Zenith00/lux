@@ -92,3 +92,6 @@ def threshold_string(string, thresh):
     if len(string) > thresh:
         return string[:thresh] + "..."
     return string
+
+def k_bool(dictionary, key):
+    return key in dictionary and dictionary[key]
