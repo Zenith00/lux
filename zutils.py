@@ -57,6 +57,7 @@ def execute(exec_type, statement, ctx=None, async_loop=None):
                               f"\n"
                               "async_loop.create_task(main())")
             exec(wrapped_to_run, locals())
+            print(f"Set return val in aexec?: {return_val}", flush=True)
             return_val = f"Created task successfully"
     except Exception:
         return_val = traceback.format_exc()
