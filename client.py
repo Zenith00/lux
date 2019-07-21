@@ -48,7 +48,7 @@ class Lux(discord.Client):
 
     async def on_message(self, message):
         ctx = Contexter(message=message, configs=self.config, auth_func=self.auth_function)
-        if message.content and message.content.startswith(ctx.config["PREFIX"]):
+        if message and message.content and message.content.startswith(ctx.config["PREFIX"]):
             command_raw = ctx.deprefixed_content.lower()
             if command_raw in self.commands:
                 await self.commands[command_raw].execute(ctx)
