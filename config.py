@@ -17,7 +17,7 @@ class Config:
     def of(self, guild) -> dict:
         if not guild:
             return {}
-        if guild.id not in self.server_configs.keys() or self.server_configs[guild] is None:
+        if guild.id not in self.server_configs.keys() or self.server_configs[guild.id] is None:
             self.initialize_default(guild_id=guild.id)
             self.save()
         return self.server_configs[guild.id]
