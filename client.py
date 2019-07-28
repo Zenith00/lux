@@ -52,6 +52,8 @@ class Lux(discord.Client):
         if message.guild is None:
             await message.author.send(self.commands["help"])
         if message and message.content and message.content.startswith(ctx.config["PREFIX"]):
+            print(f"executing ctx {ctx.called_with}")
+
             command_raw = ctx.deprefixed_content.lower()
             if command_raw in self.commands:
                 await self.commands[command_raw].execute(ctx)

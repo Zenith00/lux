@@ -10,6 +10,7 @@ class Contexter:
         self.config = configs.of(message.guild if message else (guild if guild else None))  # type: dict
         self.m = message  # type: discord.Message
         self.guild = guild if guild else (message.guild if message else None)
+        print(f"making ctxer, {self.m.content}...")
         self.deprefixed_content = None if not (self.m and self.config) else self.m.content[len(self.config["PREFIX"]):]
         self.auth_func = auth_func
 

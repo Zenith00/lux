@@ -15,7 +15,9 @@ class Command:
 
 
     async def execute(self, ctx: Contexter):
+        print(f"executing {ctx}")
         ctx.called_with = {"name": self.fname, "args": ctx.deprefixed_content[len(self.fname) + 1:], "func":self.func}
+        print(f"cw: {ctx.called_with}")
         if self.onlyme and ctx.m.author.id != 129706966460137472:
             return
         if not ctx.check_auth():
