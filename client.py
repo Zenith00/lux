@@ -8,10 +8,12 @@ import itertools
 from .contexter import Contexter
 from . import zutils
 from .command import Command
-#test
+
+
+# test
 class Lux(discord.Client):
-    commands ={}
-    events = collections.defaultdict(lambda: [None,[]])
+    commands = {}
+    events = collections.defaultdict(lambda: [None, []])
 
     def append_event(self, func, event_name=None):
         if not event_name:
@@ -29,16 +31,12 @@ class Lux(discord.Client):
 
         setattr(self, event_name, multihandler)
 
-
-
     def __init__(self, config, *args, **kwargs):
         super(Lux, self).__init__(*args, **kwargs)
         self.config = config
         self.auth_function = kwargs.get("auth_function")
         if not zutils.k_bool(kwargs, "disable_builtins"):
             register_builtins(self)
-
-
 
     async def on_ready(self):
         logging.info("Ready!")
@@ -51,19 +49,19 @@ class Lux(discord.Client):
         # print(f"ctx.config: {ctx.config}, guild is {message.guild.id}")
         if message.guild is None:
             await message.author.send(self.commands["help"])
-        if message and message.content and message.content.startswith(ctx.config["PREFIX"]):
-            print(f"executing ctx {ctx.called_with}")
-
+        if (message and message.content and message.guild
+                and "PREFIX" in ctx.config
+                and message.content.startswith(ctx.config["PREFIX"])):
             command_raw = ctx.deprefixed_content.lower()
             if command_raw in self.commands:
                 await self.commands[command_raw].execute(ctx)
             elif command_raw.split(" ")[0] in self.commands:
                 await self.commands[command_raw.split(" ")[0]].execute(ctx)
 
-
     @zutils.parametrized
     def command(func, self, name: str = None, **attrs):
-        logging.info(f"Registered function: func: {func.__name__}, override name = {name}, attrs: {pprint.pformat(attrs)}")
+        logging.info(
+            f"Registered function: func: {func.__name__}, override name = {name}, attrs: {pprint.pformat(attrs)}")
         command = Command(func, fname=name, **attrs)
         self.add_command(command)
         return command
@@ -79,23 +77,22 @@ class Lux(discord.Client):
 
         self.loop.run_until_complete(forevered(*args, **kwargs))
 
-def register_builtins(lux : Lux):
+
+def register_builtins(lux: Lux):
     print("registering builtins?")
 
-
-    @lux.command(name="aexec",onlyme=True)
+    @lux.command(name="aexec", onlyme=True)
     async def aexec_(ctx):
         return zutils.execute("aexec", ctx.deprefixed_content[6:], ctx=ctx)
 
-    @lux.command(name="eval",onlyme=True)
+    @lux.command(name="eval", onlyme=True)
     async def eval_(ctx):
         return zutils.execute("eval", ctx.deprefixed_content[5:], ctx=ctx)
 
-    @lux.command(name="exec",onlyme=True)
+    @lux.command(name="exec", onlyme=True)
     async def exec_(ctx):
         return zutils.execute("exec", ctx.deprefixed_content[5:], ctx=ctx)
 
-    @lux.command(name="aeval",onlyme=True)
+    @lux.command(name="aeval", onlyme=True)
     async def aeval_(ctx):
         return await zutils.aeval(ctx.deprefixed_content[6:], ctx=ctx)
-
