@@ -7,8 +7,8 @@ def message2dict(message: discord.Message):
 def message2embed(message: discord.Message, embed_color: discord.Color = None):
     embed = discord.Embed()
     embed.set_author(name=message.author.name, icon_url=message.author.avatar_url, url=message.jump_url)
-    embed.description = message.content
-    embed.set_footer(text=f"#{message.channel.name} | Sent at {message.created_at.isoformat('@').replace('@',' at ')}")
+    embed.description = f"{message.content}\n\n[Jump to message]({message.jump_url})"
+    embed.set_footer(text=f"#{message.channel.name} | Sent at {message.created_at.isoformat('@').replace('@',' at ')[:-6]}")
     if message.embeds:
         for m_embed in message.embeds:
             if m_embed.url:
@@ -26,7 +26,6 @@ def message2embed(message: discord.Message, embed_color: discord.Color = None):
                 break
     if embed_color:
         embed.colour = embed_color
-
     return embed
 
 def mention_to_id(command_list):
