@@ -1,5 +1,5 @@
 import discord
-
+import lux.zutils
 # test
 def message2dict(message: discord.Message):
     return {k: getattr(message, k, None) for k in message.__slots__}
@@ -10,7 +10,7 @@ def message2embed(message: discord.Message, embed_color: discord.Color = None):
     )
     embed.set_author(name=message.author.name, icon_url=message.author.avatar_url, url=message.jump_url)
 
-    embed.description = f"{message.content}\n\n[Jump to message]({message.jump_url})"
+    embed.description = f"{lux.zutils.threshold_string(message.content, 1900)}\n\n[Jump to message]({message.jump_url})"
     embed.set_footer(text=f"#{message.channel.name} | Sent at {message.created_at.isoformat('@').replace('@',' at ')[:-6]}")
     if message.embeds:
         for m_embed in message.embeds:
