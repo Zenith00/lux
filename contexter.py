@@ -6,6 +6,9 @@ import discord
 class Contexter:
     called_with = {}
 
+    def __repr__(self):
+        return f"Context with message <{self.m.id}> guild: <{self.guild.id}>"
+
     def __init__(self, message: discord.Message = None, guild: discord.Guild = None, configs: config.Config = None, auth_func=lambda x: True):
         self.config = configs.of(message.guild if message else (guild if guild else None))  # type: dict
         self.m = message  # type: discord.Message
