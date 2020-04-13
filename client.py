@@ -48,7 +48,7 @@ class Lux(discord.Client):
         ctx = Contexter(message=message, configs=self.config, auth_func=self.auth_function)
         # print(f"ctx.config: {ctx.config}, guild is {message.guild.id}")
         if message.guild is None:
-            await self.commands["help"]
+            await self.commands["help"].execute()
         if (message and message.content and message.guild
                 and "PREFIX" in ctx.config
                 and message.content.startswith(ctx.config["PREFIX"])):
